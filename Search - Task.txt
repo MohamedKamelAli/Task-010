@@ -1,0 +1,69 @@
+-- How We Can Add new Index?
+
+by Using  [Index] Attribute On Upper Of Class
+
+
+Like
+
+[Index(nameof(CustomerId))]
+
+[Index(nameof(CustomerId), Name = "Index_CustomerId")]
+
+[Index(nameof(CustomerId), IsUnique = true)]
+
+[Index(nameof(ProductId), nameof(StoreId))]
+
+-----------------------------------------------------------------------------------
+
+--How We deal with inheritance processes?
+
+By Using Inheritance Mapping With 3 Way
+
+-Table Per Hierarchy
+
+All Class Saved On One Table 
+EF Add New Column Called Discriminator 
+
+Like
+
+public class Person
+{
+    public int Id { get; set; }
+    public string Name { get; set; }
+}
+
+public class Student : Person
+{
+    public string Grade { get; set; }
+}
+
+public class Teacher : Person
+{
+    public decimal Salary { get; set; }
+}
+
+
+-Table Per Type
+
+like
+
+protected override void OnModelCreating(ModelBuilder modelBuilder)
+{
+    modelBuilder.Entity<Student>().ToTable("Students");
+    modelBuilder.Entity<Teacher>().ToTable("Teachers");
+}
+
+
+-Table Per Concrete Type
+
+Like
+
+modelBuilder.Entity<Student>().UseTpcMappingStrategy();
+modelBuilder.Entity<Teacher>().UseTpcMappingStrategy();
+
+  
+
+
+
+
+
